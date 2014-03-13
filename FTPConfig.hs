@@ -9,4 +9,5 @@ data FTPConfig = FTPConfig { connectionConfig :: ConnectionConfig
 
 readFTPConfig :: FilePath -> IO (FTPConfig)
 readFTPConfig configPath = do
-  (\(v1:v2:v3:v4:_) -> FTPConfig (ConnectionConfig v1 v2 v3) v4) <$> lines <$> readFile configPath
+  let configBuilder = (\(v1:v2:v3:v4:_) -> FTPConfig (ConnectionConfig v1 v2 v3) v4)
+  configBuilder <$> lines <$> readFile configPath
