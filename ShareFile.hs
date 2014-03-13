@@ -16,7 +16,7 @@ withConnection (FTPConfig host user password _) f = do
   f handler
   quit handler
 
-uploadFile ::  FilePath -> FTPUploadsPath -> FTPConnection -> IO FTPResult
+uploadFile :: FilePath -> FilePath -> FTPConnection -> IO FTPResult
 uploadFile filePath uploadsPath handler = do
   cwd handler uploadsPath
   fileContent <- fmap BC.unpack $ B.readFile filePath
