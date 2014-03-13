@@ -5,12 +5,13 @@ import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.Char8 as BC
 import Network.FTP.Client
 import Network.FTP.Client.Parser
+import ConnectionConfig
 import FTPConfig
 
 configFileName = "sharefile.conf"
 
-withConnection :: FTPConfig -> (FTPConnection -> IO a) -> IO FTPResult
-withConnection (FTPConfig host user password _) f = do
+withConnection :: ConnectionConfig -> (FTPConnection -> IO a) -> IO FTPResult
+withConnection (ConnectionConfig host user password) f = do
   handler <- easyConnectFTP host
   login handler user (Just password) Nothing
   f handler
@@ -27,5 +28,5 @@ main = do
   configPath <- combine <$> (takeDirectory <$> getExecutablePath) <*> return configFileName
   config <- readFTPConfig configPath
   filePath <- head <$> getArgs
-  withConnection config $ uploadFile filePath $ uploadsPath config
+  withConnection (connectionConfig config) $ uploadFile filePath $ uploadsPath config
   putStrLn $ "http://share.vldkn.net/shares/Shared/uploads/" ++ takeFileName(filePath)
