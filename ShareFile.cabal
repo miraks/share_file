@@ -22,3 +22,7 @@ executable ShareFile
                        , containers ==0.5.*
                        , bytestring ==0.10.*
                        , ftphs ==1.0.*
+                       , unordered-containers ==0.2.*
+                       , aeson ==0.7.*
+                       , HTTP ==4000.2.*
+                       , text ==0.11.*

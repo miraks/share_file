@@ -1,12 +1,16 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 import System.Environment
 import System.FilePath
 import Control.Applicative
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.Char8 as BC
+import qualified Data.Text as T
 import Network.FTP.Client
 import Network.FTP.Client.Parser
 import ConnectionConfig
 import FTPConfig
+import Shortifier
 
 configFileName = "sharefile.conf"
 
@@ -29,4 +33,5 @@ main = do
   config <- readFTPConfig configPath
   filePath <- head <$> getArgs
   withConnection (connectionConfig config) $ uploadFile filePath $ uploadsPath config
-  putStrLn $ "http://share.vldkn.net/shares/Shared/uploads/" ++ takeFileName(filePath)
+  shortUrl <- shortify $ "http://share.vldkn.net/shares/Shared/uploads/" ++ takeFileName(filePath)
+  putStrLn $ T.unpack shortUrl
