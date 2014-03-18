@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 import System.Environment
 import System.FilePath
 import Control.Applicative
