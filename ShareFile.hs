@@ -22,14 +22,13 @@ withConnection (ConnectionConfig host user password) f = do
 uploadFile :: FilePath -> FilePath -> FTPConnection -> IO FTPResult
 uploadFile filePath uploadsPath handler = do
   cwd handler uploadsPath
-  fileContent <- fmap BC.unpack $ B.readFile filePath
-  let fileName = takeFileName filePath
-  putbinary handler fileName fileContent
+  fileContent <- BC.unpack <$> B.readFile filePath
+  putbinary handler (takeFileName filePath) fileContent
 
 main = do
   configPath <- combine <$> (takeDirectory <$> getExecutablePath) <*> return configFileName
   config <- readFTPConfig configPath
   filePath <- head <$> getArgs
   withConnection (connectionConfig config) $ uploadFile filePath $ uploadsPath config
-  shortUrl <- shortify $ "http://share.vldkn.net/shares/Shared/uploads/" ++ takeFileName(filePath)
-  putStrLn $ T.unpack shortUrl
+  shortUrl <- shortify $ "http://share.vldkn.net/shares/Shared/uploads/" ++ takeFileName filePath
+  putStrLn shortUrl
