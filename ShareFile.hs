@@ -27,5 +27,5 @@ main = do
   config <- readConfig configPath
   filePath <- head <$> getArgs
   withConnection (connectionConfig config) $ uploadFile filePath $ uploadsPath config
-  shortUrl <- shortify $ "http://share.vldkn.net/shares/Shared/uploads/" ++ takeFileName filePath
+  shortUrl <- shortify (shortifyServiceUrl config) $ uploadsUrl config ++ takeFileName filePath
   putStrLn shortUrl

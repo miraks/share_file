@@ -14,6 +14,8 @@ data Config =
          , ftpHost :: !String
          , ftpUser :: !String
          , ftpPassword :: !String
+         , uploadsUrl :: !String
+         , shortifyServiceUrl :: !String
          } deriving (Show, Generic)
 
 type ConnectionConfig = (String, String, String)
